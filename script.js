@@ -31,7 +31,7 @@ for(i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', clearCalc);
     }
     else if(buttons[i].id === 'negitive') {
-        buttons[i].addEventListener('click', clearCalc);
+        buttons[i].addEventListener('click', makeNegitiveOrPositive);
     }
     else if(buttons[i].id === 'backspace') {
         buttons[i].addEventListener('click', clearCalc);
@@ -49,9 +49,16 @@ function checkDecimal() {
 
 }
 function makeNegitiveOrPositive() {
-
+    if(Math.sign(parseInt(currentSelection.textContent)) === -1 ) {
+        currentSelection.textContent = currentSelection.textContent.slice(1);
+    }
+    else if(Math.sign(parseInt(currentSelection.textContent)) === -0) {
+        return;
+    }
+    else {
+        currentSelection.textContent = "-" + currentSelection.textContent;
+    }
 }
-console.log(parseInt(currentSelection.textContent));
 /*  when a user clicks a button it saves that number in a variable concating each one until a operand symbol is pressed
     when operand is pressed add that to another variable,   */
     // check which id is clicked before adding event listener
