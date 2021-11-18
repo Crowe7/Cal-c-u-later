@@ -21,10 +21,10 @@ body {
     display: flex;
     flex-direction: column;
     height: 550px;
-    width: 400px;
+    width: 410px;
     background-color: #adb5bd;
     border-radius: 15px;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 .n {
     display: flex;
@@ -47,7 +47,7 @@ body {
     width: 90%;
     border-radius: 15px;
     justify-content: center;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 #prevNum, #currentSelection {
     display: flex;
@@ -68,7 +68,7 @@ body {
     padding: 15px 30px;
     font-size: 25px;
     border-radius: 15px;
-    border: 1px solid black;
+    border: 2px solid black;
     margin: 5px;
     background-color: #e9ecef;
 }
