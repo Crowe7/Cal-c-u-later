@@ -1,0 +1,122 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body {
+    display: flex;
+    font-family: 'Open Sans', sans-serif;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e9ecef;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+.flex-calc {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 400px;
+    background-color: #adb5bd;
+    border-radius: 15px;
+    border: 1px solid black;
+}
+.n {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    font-size: 25px;
+    color: #212529;
+}
+.center-box {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+
+}
+.display-box{
+    height: 60px;
+    background-color: #e9ecef;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    border-radius: 15px;
+    justify-content: center;
+    border: 1px solid black;
+}
+#prevNum, #currentSelection {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+#currentSelection {
+    font-size: 25px;
+    font-weight: bold;
+}
+.buttons {
+    display: grid;
+    grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.buttonSelection {
+    padding: 15px 30px;
+    font-size: 25px;
+    border-radius: 15px;
+    border: 1px solid black;
+    margin: 5px;
+    background-color: #e9ecef;
+
+}
+.long-button {
+    grid-column: 3/5;
+}
+.long-button:active {
+    background-color: #fad2e1 !important;
+}
+.buttonSelection:active {
+    background-color: skyblue;
+}
+
+
+
+.flex-wrapper{
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #adb5bd;
+    color: black;
+}
+@keyframes spin{
+    from {transform: rotate(0deg)}
+    to {transform: rotate(360deg)}
+}
+.rotate{
+    transition: transform 1s;
+    padding-left: 5px;
+}
+.rotate:hover{
+    transform: rotate(360deg);
+}
+.footer i{
+    text-decoration: none;
+    color: rgb(34, 33, 33);
+    transition: font-size 1s, padding-left 1s;
+    font-size: 18px;
+}
+.footer i:hover {
+    font-size: 26px;
+    padding-left: 8px;
+}
