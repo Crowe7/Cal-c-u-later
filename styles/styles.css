@@ -20,7 +20,7 @@ body {
 .flex-calc {
     display: flex;
     flex-direction: column;
-    height: 500px;
+    height: 550px;
     width: 400px;
     background-color: #adb5bd;
     border-radius: 15px;
@@ -40,7 +40,7 @@ body {
 
 }
 .display-box{
-    height: 60px;
+    height: 100px;
     background-color: #e9ecef;
     display: flex;
     flex-direction: column;
@@ -71,7 +71,6 @@ body {
     border: 1px solid black;
     margin: 5px;
     background-color: #e9ecef;
-
 }
 .long-button {
     grid-column: 3/5;
