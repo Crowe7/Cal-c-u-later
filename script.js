@@ -1,5 +1,6 @@
 let prevNum = document.querySelector('#prevNum');
 let currentSelection = document.querySelector('#currentSelection');
+let backspaceButton = document.querySelector('#backspace');
 let equation = {
     hasDecimal: false,
     currentNumber: false,
@@ -37,16 +38,18 @@ let buttons = document.querySelector('.buttons').children;
 for(i = 0; i < buttons.length; i++) {
     if( buttons[i].classList.contains('oper')) {
         buttons[i].addEventListener('click', function (e) {
+
             saveLastNumber();
             addOperand(e.target.textContent);
             resetCurrentDisplay();
+
           });
     }
     else if(buttons[i].id === 'clr') {
         buttons[i].addEventListener('click', clearCalc);
     }
     else if(buttons[i].id === 'backspace') {
-        buttons[i].addEventListener('click', clearCalc);
+        buttons[i].addEventListener('click', backButton);
     }
     else if(buttons[i].id === 'negitive') {
         buttons[i].addEventListener('click', makeNegitiveOrPositive);
@@ -59,6 +62,8 @@ for(i = 0; i < buttons.length; i++) {
             temp2 = currentSelection.textContent;
             saveCurrentNumber();
             evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
+            console.log(equation.lastNumber);
+            console.log(equation.currentNumber);
         });
     }
     //handles buttons
@@ -76,6 +81,17 @@ for(i = 0; i < buttons.length; i++) {
 function addOperand(sym) {
     prevNum.textContent = equation.lastNumber + " " +  sym;
     equation.operand = sym;
+}
+function backButton() {
+    for(i = 0; i <= currentSelection.textContent.length; i++){
+        if(i === currentSelection.textContent.length) {
+            i--;
+            currentSelection.textContent = currentSelection.textContent.slice(0, i)
+        }
+        if(currentSelection.textContent.length === 0) {
+            return currentSelection.textContent = "0";
+        }
+    }
 }
 function clearCalc() {
     prevNum.textContent = "";
@@ -146,13 +162,3 @@ function clearThenSaveLastNumber() {
     saveLastNumber();
     prevNum.textContent = temp  + " " + equation.operand + " " + temp2 + " =";
 }
-
-/*  when a user clicks a button it saves that number in a variable concating each one until a operand symbol is pressed
-    when operand is pressed add that to another variable,   */
-    // check which id is clicked before adding event listener
-
-    //when you click symbol it stores the current type in number as a variable and then allows you to type in your second number 
-    //when you click on an operand key change the value of a varaible to be what teh text content of that current operand is.
-    // when you clcik an operand set a 2nd variable to be 1, and check that when you click a number, and if it eqeals
-    // anything turn the current number to 0 then reset the 2nd variable and then add that numbers text conent to the display
-    // all functions should do ONE thing completely
