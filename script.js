@@ -78,6 +78,9 @@ function numberButtons(e) {
 }
 
 function equalsButton() {
+    if(equation.lastNumber === false) { // prevents error printing out if first complete equation wasnt typed in
+        return ;
+    }
     temp2 = currentSelection.textContent;
     saveCurrentNumber();
     evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
@@ -141,7 +144,6 @@ function makeNegitiveOrPositive() {
 function evaluate(f, l, o) {
     if(o === "÷") {
         currentSelection.textContent = divide(l, f);
-
     }
     if(o === "*") {
         currentSelection.textContent = multiply(f, l);
