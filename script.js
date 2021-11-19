@@ -6,8 +6,10 @@ let equation = {
     currentNumber: false,
     lastNumber: false,
     operand: false,
+    result: false,
 }
 
+// OPERATIONS 
 function add(num,num2) {
     temp = num + num2;
     return Math.round(temp * 1000) / 1000
@@ -37,13 +39,7 @@ function multiply(num, num2) {
 let buttons = document.querySelector('.buttons').children;
 for(i = 0; i < buttons.length; i++) {
     if( buttons[i].classList.contains('oper')) {
-        buttons[i].addEventListener('click', function (e) {
-
-            saveLastNumber();
-            addOperand(e.target.textContent);
-            resetCurrentDisplay();
-
-          });
+        buttons[i].addEventListener('click', operButtons);
     }
     else if(buttons[i].id === 'clr') {
         buttons[i].addEventListener('click', clearCalc);
@@ -58,30 +54,41 @@ for(i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', checkDecimal); 
     }
     else if(buttons[i].id === 'equals') {
-        buttons[i].addEventListener('click', function (e) {
-            temp2 = currentSelection.textContent;
-            saveCurrentNumber();
-            evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
-            console.log(equation.lastNumber);
-            console.log(equation.currentNumber);
-        });
+        buttons[i].addEventListener('click', equalsButton);
     }
-    //handles buttons
     else {
-        buttons[i].addEventListener('click', function (e) {
-            if (currentSelection.textContent === "0") {
-               currentSelection.textContent = currentSelection.textContent.slice(1);
-            }
-            currentSelection.textContent = currentSelection.textContent + e.target.textContent; 
-        });
+        buttons[i].addEventListener('click', numberButtons);
     }
 }
 
-
-function addOperand(sym) {
-    prevNum.textContent = equation.lastNumber + " " +  sym;
-    equation.operand = sym;
+// ALL BUTTONS 
+function operButtons(e) {
+    saveLastNumber();
+    addOperand(e.target.textContent);
+    resetCurrentDisplay();
+    equation.result = false;
 }
+
+function numberButtons(e) {
+    if (currentSelection.textContent === "0") {
+        currentSelection.textContent = currentSelection.textContent.slice(1);
+     }
+     currentSelection.textContent = currentSelection.textContent + e.target.textContent; 
+     equation.result = false;
+}
+
+function equalsButton() {
+    temp2 = currentSelection.textContent;
+    saveCurrentNumber();
+    evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
+    clearThenSaveLastNumber();
+    equation.result =  true;
+    if(currentSelection.textContent === "Infinity") {
+        alert("this number too got dang big");
+        clearCalc();
+    }
+}
+
 function backButton() {
     for(i = 0; i <= currentSelection.textContent.length; i++){
         if(i === currentSelection.textContent.length) {
@@ -92,7 +99,9 @@ function backButton() {
             return currentSelection.textContent = "0";
         }
     }
+    equation.result = false;
 }
+
 function clearCalc() {
     prevNum.textContent = "";
     currentSelection.textContent = "0";
@@ -101,6 +110,7 @@ function clearCalc() {
     equation.currentNumber = false;
     equation.lastNumber = false;
 }
+
 function checkDecimal(sym) {
      if(equation.hasDecimal === true) {
          return;
@@ -110,8 +120,12 @@ function checkDecimal(sym) {
          equation.hasDecimal = true;
      }
 }
+
 function makeNegitiveOrPositive() {
-    if(Math.sign(parseInt(currentSelection.textContent)) === -1 ) {
+    if(equation.result === true) [
+        
+    ]
+    else if(Math.sign(parseInt(currentSelection.textContent)) === -1 ) {
         currentSelection.textContent = currentSelection.textContent.slice(1);
         saveCurrentNumber();
     }
@@ -123,6 +137,28 @@ function makeNegitiveOrPositive() {
         saveCurrentNumber();
     }
 }
+
+function evaluate(f, l, o) {
+    if(o === "÷") {
+        currentSelection.textContent = divide(l, f);
+
+    }
+    if(o === "*") {
+        currentSelection.textContent = multiply(f, l);
+    }
+    if(o === "+") {
+        currentSelection.textContent = add(f, l);
+    }
+    if(o === "-") {
+        currentSelection.textContent = subtract(l, f);
+    }
+}
+
+
+
+
+// HELPER FUNCTIONS
+
 function saveCurrentNumber() {
     equation.currentNumber = parseFloat(currentSelection.textContent);
 }
@@ -134,25 +170,6 @@ function saveLastNumber() {
         return;
     }
 }
-function evaluate(f, l, o) {
-    if(o === "÷") {
-        currentSelection.textContent = divide(l, f);
-        clearThenSaveLastNumber();
-
-    }
-    if(o === "*") {
-        currentSelection.textContent = multiply(f, l);
-        clearThenSaveLastNumber();
-    }
-    if(o === "+") {
-        currentSelection.textContent = add(f, l);
-        clearThenSaveLastNumber();
-    }
-    if(o === "-") {
-        currentSelection.textContent = subtract(l, f);
-        clearThenSaveLastNumber();
-    }
-}
 function resetCurrentDisplay() {
     currentSelection.textContent = "0";
 }
@@ -161,4 +178,8 @@ function clearThenSaveLastNumber() {
     equation.lastNumber = false;
     saveLastNumber();
     prevNum.textContent = temp  + " " + equation.operand + " " + temp2 + " =";
+}
+function addOperand(sym) {
+    prevNum.textContent = equation.lastNumber + " " +  sym;
+    equation.operand = sym;
 }
