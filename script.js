@@ -2,28 +2,31 @@ let prevNum = document.querySelector('#prevNum');
 let currentSelection = document.querySelector('#currentSelection');
 
 
-const add = function(num,num2) {
+function add(num,num2) {
 	return num + num2;
 };
 
-const subtract = function(num, num2) {
+function subtract(num, num2) {
 	return num - num2;
 };
 
-const divide = function(num, num2) {
+function divide(num, num2) {
   return num / num2;
 };
 
-const multiply = function(num) {
-   return num.reduce((multi, curr) => multi * curr, 1);
+function multiply(num, num2) {
+   return num * num2;
 };
+
+
+
 let buttons = document.querySelector('.buttons').children;
 for(i = 0; i < buttons.length; i++) {
     if( buttons[i].classList.contains('oper')) {
         buttons[i].addEventListener('click', function (e) {
+            saveLastNumber();
             addOperand(e.target.textContent);
-            saveFirstNumber();
-            console.log(equation.firstNumber);
+            resetCurrentDisplay();
           });
     }
     else if(buttons[i].id === 'clr') {
@@ -38,10 +41,25 @@ for(i = 0; i < buttons.length; i++) {
     else if(buttons[i].id === 'decimal') {
         buttons[i].addEventListener('click', checkDecimal); 
     }
+    else if(buttons[i].id === 'equals') {
+        buttons[i].addEventListener('click', function (e) {
+            saveCurrentNumber();
+            evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
+        });
+    }
+    else {
+        buttons[i].addEventListener('click', function (e) {
+            if (currentSelection.textContent === "0") {
+               currentSelection.textContent = currentSelection.textContent.slice(1);
+            }
+            currentSelection.textContent = currentSelection.textContent + e.target.textContent; 
+        });
+    }
 }
 
+
 function addOperand(sym) {
-    prevNum.textContent = currentSelection.textContent + " " +  sym;
+    prevNum.textContent = equation.lastNumber + " " +  sym;
     equation.operand = sym;
 }
 function clearCalc() {
@@ -49,7 +67,7 @@ function clearCalc() {
     currentSelection.textContent = "0";
     equation.hasDecimal = false;
     equation.operand = false;
-    equation.firstNumber = false;
+    equation.currentNumber = false;
     equation.lastNumber = false;
 }
 function checkDecimal(sym) {
@@ -72,8 +90,42 @@ function makeNegitiveOrPositive() {
         currentSelection.textContent = "-" + currentSelection.textContent;
     }
 }
-function saveFirstNumber() {
-    equation.firstNumber = currentSelection.textContent;
+function saveCurrentNumber() {
+    equation.currentNumber = parseFloat(currentSelection.textContent);
+}
+function saveLastNumber() {
+    if(equation.lastNumber === false){
+        equation.lastNumber = parseFloat(currentSelection.textContent);
+    }
+    else{
+        return;
+    }
+}
+function evaluate(f, l, o) {
+    if(o === "÷") {
+        currentSelection.textContent = divide(l, f);
+        clearThenSaveLastNumber();
+    }
+    if(o === "*") {
+        currentSelection.textContent = multiply(f, l);
+        clearThenSaveLastNumber();
+    }
+    if(o === "+") {
+        currentSelection.textContent = add(f, l);
+        clearThenSaveLastNumber();
+    }
+    if(o === "-") {
+        currentSelection.textContent = subtract(l, f);
+        clearThenSaveLastNumber();
+    }
+}
+function resetCurrentDisplay() {
+    currentSelection.textContent = "0";
+}
+function clearThenSaveLastNumber() {
+    equation.lastNumber = false;
+    saveLastNumber();
+    prevNum.textContent = equation.lastNumber;
 }
 /*  when a user clicks a button it saves that number in a variable concating each one until a operand symbol is pressed
     when operand is pressed add that to another variable,   */
@@ -86,7 +138,7 @@ function saveFirstNumber() {
     // all functions should do ONE thing completely
     let equation = {
         hasDecimal: false,
-        firstNumber: false,
+        currentNumber: false,
         lastNumber: false,
         operand: false,
     }
