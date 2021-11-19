@@ -75,11 +75,26 @@ body {
 .long-button {
     grid-column: 3/5;
 }
-.long-button:active {
+.buttonSelection:hover {
+    box-shadow: 2px 2px 4px 3px #393d3f ;
+}
+.oper{
+    background-color: #b9fbc0 !important;
+}
+.oper:active {
+    background-color: #91f89c !important;
+}
+.long-button{
     background-color: #fad2e1 !important;
 }
+.long-button:active {
+    background-color: #ffb1ce !important;
+}
+.buttonSelection{
+    background-color: rgb(184, 235, 255);
+}
 .buttonSelection:active {
-    background-color: skyblue;
+    background-color: rgb(142, 223, 255);
 }
 
 

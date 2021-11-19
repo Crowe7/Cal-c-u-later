@@ -1,21 +1,30 @@
 let prevNum = document.querySelector('#prevNum');
 let currentSelection = document.querySelector('#currentSelection');
-
+let equation = {
+    hasDecimal: false,
+    currentNumber: false,
+    lastNumber: false,
+    operand: false,
+}
 
 function add(num,num2) {
-	return num + num2;
+    temp = num + num2;
+    return Math.round(temp * 1000) / 1000
 };
 
 function subtract(num, num2) {
-	return num - num2;
+    temp = num - num2;
+    return Math.round(temp * 1000) / 1000
 };
 
 function divide(num, num2) {
-  return num / num2;
+  temp = num / num2;
+  return Math.round(temp * 1000) / 1000
 };
 
 function multiply(num, num2) {
-   return num * num2;
+    temp = num * num2;
+    return Math.round(temp * 1000) / 1000
 };
 
 
@@ -43,10 +52,12 @@ for(i = 0; i < buttons.length; i++) {
     }
     else if(buttons[i].id === 'equals') {
         buttons[i].addEventListener('click', function (e) {
+            temp2 = currentSelection.textContent;
             saveCurrentNumber();
             evaluate(equation.currentNumber,equation.lastNumber, equation.operand);
         });
     }
+    //handles buttons
     else {
         buttons[i].addEventListener('click', function (e) {
             if (currentSelection.textContent === "0") {
@@ -82,12 +93,14 @@ function checkDecimal(sym) {
 function makeNegitiveOrPositive() {
     if(Math.sign(parseInt(currentSelection.textContent)) === -1 ) {
         currentSelection.textContent = currentSelection.textContent.slice(1);
+        saveCurrentNumber();
     }
     else if(Math.sign(parseInt(currentSelection.textContent)) === -0) {
         return;
     }
     else {
         currentSelection.textContent = "-" + currentSelection.textContent;
+        saveCurrentNumber();
     }
 }
 function saveCurrentNumber() {
@@ -103,8 +116,10 @@ function saveLastNumber() {
 }
 function evaluate(f, l, o) {
     if(o === "÷") {
+
         currentSelection.textContent = divide(l, f);
         clearThenSaveLastNumber();
+
     }
     if(o === "*") {
         currentSelection.textContent = multiply(f, l);
@@ -123,10 +138,12 @@ function resetCurrentDisplay() {
     currentSelection.textContent = "0";
 }
 function clearThenSaveLastNumber() {
+    let temp = equation.lastNumber;
     equation.lastNumber = false;
     saveLastNumber();
-    prevNum.textContent = equation.lastNumber;
+    prevNum.textContent = temp  + " " + equation.operand + " " + temp2 + " =";
 }
+
 /*  when a user clicks a button it saves that number in a variable concating each one until a operand symbol is pressed
     when operand is pressed add that to another variable,   */
     // check which id is clicked before adding event listener
@@ -136,9 +153,3 @@ function clearThenSaveLastNumber() {
     // when you clcik an operand set a 2nd variable to be 1, and check that when you click a number, and if it eqeals
     // anything turn the current number to 0 then reset the 2nd variable and then add that numbers text conent to the display
     // all functions should do ONE thing completely
-    let equation = {
-        hasDecimal: false,
-        currentNumber: false,
-        lastNumber: false,
-        operand: false,
-    }
