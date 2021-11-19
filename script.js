@@ -18,6 +18,10 @@ function subtract(num, num2) {
 };
 
 function divide(num, num2) {
+    if(num === 0 || num2 === 0 ) {
+        alert('no');
+        return 0
+    }
   temp = num / num2;
   return Math.round(temp * 1000) / 1000
 };
@@ -116,7 +120,6 @@ function saveLastNumber() {
 }
 function evaluate(f, l, o) {
     if(o === "÷") {
-
         currentSelection.textContent = divide(l, f);
         clearThenSaveLastNumber();
 
